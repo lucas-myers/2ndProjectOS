@@ -1,0 +1,7 @@
+Name: Lucas Myers 
+Date: 2/17/26
+Environment(Linux, Visual Studio Code)
+How to compile the project:
+Type 'make'
+Example of how to run the project:
+ ./oss -n 3 -s 2 -t 4 -i 0.6
