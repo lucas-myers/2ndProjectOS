@@ -1,14 +1,15 @@
 #include <iostream>
+#include <sys/shm.h>
+#include <unistd.h>
+#include <cstdlib>
 
-int main(){
-    while(true){
+struct Clock {
+    int seconds;
+    int nanoseconds;
+};
 
-        //check if time was reached
-        if (){
-            break;
-        }
-        //print every second
-        if()
-    
-    }
+int main(int argCount, int *argValue[]){
+if (argCount !=4){
+
+}
 }

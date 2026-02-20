@@ -5,3 +5,15 @@ How to compile the project:
 Type 'make'
 Example of how to run the project:
  ./oss -n 3 -s 2 -t 4 -i 0.6
+
+ 1. Added barebones functions and skeleton code given. (Esentially created github and files then uploaded)
+
+ 2.Started on command line parsing by taking function from other project and adding -i
+
+ 3.Added variables
+
+ 4.Added while loop to monitor how many children have terminated and how many need to launch
+
+ 5.Created another loop to continously see how many children are currenly running, if its not at the max run another child.
+
+ 6. added Clock struct.
