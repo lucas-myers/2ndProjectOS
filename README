@@ -17,3 +17,15 @@ Example of how to run the project:
  5.Created another loop to continously see how many children are currenly running, if its not at the max run another child.
 
  6. added Clock struct.
+
+ 7. Logic was wrong of while loop launched < n is for if children still need to be created and pipes to running > 0 which checks if children are still alive.
+
+ 8. added simple for loop to take in values from the the pcb.
+
+ 9. fixed loop by initializing loop with pid_t pid;
+
+ 10.Logic was also messed up for the other loop
+
+ 11. Added the basic logic for the process table in/out loops just need to test correctly.
+
+ 12. Started working on increment clock function.
