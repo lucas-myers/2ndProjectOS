@@ -29,3 +29,9 @@ Example of how to run the project:
  11. Added the basic logic for the process table in/out loops just need to test correctly.
 
  12. Started working on increment clock function.
+
+ 13. while loop had semicolon behind it so it wouldn't loop, running wasn't declared.
+
+ 14. Fork only happened once in the loop because of the if statement. Put inside main loop.
+
+ 15.Compiled correctly now need to work on clock in shared memory.

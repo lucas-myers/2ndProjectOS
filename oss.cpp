@@ -19,12 +19,15 @@ struct PCB{
 
 };
 
-Clock simClock;
-simClock.seconds = 0;
-simClock.nanoseconds = 0;
+Clock simClock = {0, 0};
 
 void incrementClock(){
-    
+    simClock.nanoseconds += 10000000; //10ms
+
+    if (simClock.nanoseconds >= 1000000000) {
+        simClock.seconds++;
+        simClock.nanoseconds -= 1000000000;
+    }
 
 }
 struct PCB processTable[20];
@@ -33,8 +36,7 @@ int main (int argCount, char* argValue[]) {
 
 int launched = 0;
 int finished = 0;
-int gonnaLaunch = n;
-int maxSims = n;
+int running = 0;
 
 int n =5;
 int s = 3;
@@ -66,46 +68,54 @@ while ((option = getopt(argCount, argValue, "n:s:t:i:")) != -1) {
     }
 }
 
-    while (launched < n || running > 0){
-        int going; //status of child
-        pid_t pid;
-        while ((pid = waitpid(-1, &going,WNOHANG)) > 0);
-        if (pid > 0){
-            finished++;
-            running--;
-            std::cout << "Child: " << pid <<" terminated\n";
+    while (launched < n || running > 0) {
 
-            //clear table NEEDS TEST
-            //for (int x = 0;vx< 20; x++){
-               // if (processTable[x].pid == pid) {
-                   // processTable[x].occupied = 0;
-                    //break;
-                }
-            }
-        }
+    incrementClock();
 
-    }
+    int status;
+    pid_t pid;
 
+    // Check for terminated children
+    while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
 
-    if(launched < n && running < s){
-        pid_t child = fork();
-        if (child == 0){
-         execl("./worker","./worker",//SECONDS HERE, MILLISECONDS HERE,// NULL);
-        perror("fail");
-        exit(1);
-    } else if (child > 0){
-        launched++;
-        running++;
-        for (int x= 0; x < 20; x++){
-            if (!processTable[x].occupied){
-                processTable[x].occupied = 1;
-                processTable[x].pid = child;
+        finished++;
+        running--;
+
+        std::cout << "Child: " << pid << " terminated\n";
+
+        for (int x = 0; x < 20; x++) {
+            if (processTable[x].pid == pid) {
+                processTable[x].occupied = 0;
                 break;
             }
         }
-    } else {
-        perror(" major fail");
     }
 
-}
+    // decide if we can launch new child
+    if (launched < n && running < s) {
+
+        pid_t child = fork();
+
+        if (child == 0) {
+            execl("./worker", "./worker", "1", "500000000", NULL);
+            perror("exec fail");
+            exit(1);
+        }
+        else if (child > 0) {
+
+            launched++;
+            running++;
+
+            for (int x = 0; x < 20; x++) {
+                if (!processTable[x].occupied) {
+                    processTable[x].occupied = 1;
+                    processTable[x].pid = child;
+                    break;
+                }
+            }
+        }
+        else {
+            perror("fork fail");
+        }
+    }
 }
