@@ -2,6 +2,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/shm.h>
+#include <sys/ipc.h>
 
 struct Clock{
     int seconds;
@@ -18,15 +20,16 @@ struct PCB{
 
 
 };
+key_t key = ftok("oss.cpp", 1);
+int shmid = shmget(key, sizeof(Clock), IPC_CREAT | 0666);
+Clock* simClock = (Clock*) shmat(shmid, NULL, 0);
 
-Clock simClock = {0, 0};
+void incrementClock(Clock* simClock){
+    simClock->nanoseconds += 10000000; //10ms
 
-void incrementClock(){
-    simClock.nanoseconds += 10000000; //10ms
-
-    if (simClock.nanoseconds >= 1000000000) {
-        simClock.seconds++;
-        simClock.nanoseconds -= 1000000000;
+    if (simClock->nanoseconds >= 1000000000) {
+        simClock->seconds++;
+        simClock->nanoseconds -= 1000000000;
     }
 
 }
@@ -70,7 +73,7 @@ while ((option = getopt(argCount, argValue, "n:s:t:i:")) != -1) {
 
     while (launched < n || running > 0) {
 
-    incrementClock();
+    incrementClock(simClock);
 
     int status;
     pid_t pid;

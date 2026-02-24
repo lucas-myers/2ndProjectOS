@@ -35,3 +35,7 @@ Example of how to run the project:
  14. Fork only happened once in the loop because of the if statement. Put inside main loop.
 
  15.Compiled correctly now need to work on clock in shared memory.
+
+ 16.Started making global variable for the clock in oss.
+
+ 17. Added simple print messages in worker, going to start working on sharing the clock between the files.

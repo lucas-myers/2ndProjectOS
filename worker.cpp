@@ -8,8 +8,20 @@ struct Clock {
     int nanoseconds;
 };
 
-int main(int argCount, int *argValue[]){
-if (argCount !=4){
+int main(int argCount, char* argValue[]){
+    if (argCount !=3){
+        std::cerr << "Usage: worker seconds nanoseconds\n";
+        exit(1);
+    }
 
-}
+    int wSeconds = atoi(argValue[1]);
+    int wNano = atoi(argValue[2]);
+
+    std::cout << "Worker started. Will terminate after "
+              << wSeconds << " sec and "
+              << wNano << " ns\n";
+
+    return 0;
+
+    
 }
