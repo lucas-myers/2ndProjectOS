@@ -38,4 +38,64 @@ Example of how to run the project:
 
  16.Started making global variable for the clock in oss.
 
- 17. Added simple print messages in worker, going to start working on sharing the clock between the files.
+ 19. Moved the shared memory creation inside the main.
+
+20. Initialized the clock to 0.
+
+21. Fixed how the pbc printed it now prints every seconds.
+
+22. Added shared memory functions shmget() and shmat() to worker.
+
+23. Added loop to worker so it checks the clock continously.
+
+24. Ran into bug where talbe show 0 while will be at 310s
+
+25. Added simple print messages in worker, going to start working on sharing the clock between the files.
+
+26. Fixed huge bug with worker process where the clock was not seeing update clock values. Added volatile to shared memory pointer to prvent the compiler from caching the values.
+
+27. Added the signal handling from skeleton code and made sure it cleaned up memory when executed.
+
+28. Limited the PCB from recieving the [20] output from skeleton code and only used the data from entered values.
+
+29.Added logic to input values so command line arguments can be called by themselves.
+
+
+KNOWN BUGS
+
+Output from the oss and worker may interleave 
+
+KNOWN BEHAVIOR
+
+Clock is not sync'd with actual real time
+
+
+Generative AI Used: ChatGPT
+
+Prompts Used:
+
+1.Help me implement shared memory between oss and worker in C++
+
+2. Show me how to convert float time values into seconds and nanoseconds
+
+3.Help me implement a simulated clock without using sleep or usleep.
+
+4.Help me implement interval-based child launching in C++.
+
+5.Show me how to implement signal handling and alarm in Linux C++
+
+6. Help me create a Makefile that compiles two executables
+
+7.Debugging shared memory synchonization issues
+
+8.Correct use of volatile with shared memory
+
+9.Fixing non-blocking waitpid() logic
+
+10.How to structure the main control loop for process management
+
+Summary
+
+ChatGPT was used mostly for debugging the shared memory syncing between files, there were a few issues with the table and worker displaying the correct times, it helped improve the management logic and improving the proccess. It helped with me understanding how to properly use volatile with the memory between files. 
+
+I found ChatGPT useful and a big help in debugging the processes.
