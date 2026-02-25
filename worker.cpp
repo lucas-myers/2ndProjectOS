@@ -29,20 +29,24 @@ int main(int argc, char* argv[]) {
         std::cerr << "Usage: ./worker seconds nanoseconds shmid\n";
         return 1;
     }
-
+	//how long to live
     unsigned int addS = (unsigned int)atoi(argv[1]);
     unsigned int addN = (unsigned int)atoi(argv[2]);
     normalize(addS, addN);
-
+	
+    //gets shmid from the oss file
     int shmid = atoi(argv[3]);
 
-    //keeps from caching memory
+    //Attached to the memory in the clock
     volatile Clock* c = (volatile Clock*)shmat(shmid, NULL, 0);
     if (c == (void*)-1) { perror("shmat"); return 1; }
-
+    
+    
+    //stores the time
     unsigned int startS = c->seconds;
     unsigned int startN = c->nanoseconds;
-
+	
+    //termination time
     unsigned int termS = startS + addS;
     unsigned int termN = startN + addN;
     normalize(termS, termN);
@@ -56,7 +60,7 @@ int main(int argc, char* argv[]) {
 
     unsigned int lastSec = startS;
 
-    while (true) {
+    while (true) {//keeps checking the clock
         unsigned int nowS = c->seconds;
         unsigned int nowN = c->nanoseconds;
 
